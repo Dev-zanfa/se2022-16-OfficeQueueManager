@@ -18,17 +18,15 @@ dbManager.openConnection();
 
 //API
 app.post('/api/ticket', async(req,res) => {
-  const genericFailureStatus = 500;
-  let response={}
-  try {
     const ticketController = new TicketController(dbManager);
     response = await ticketController.addTicket();
-  }catch(err){
     response.returnCode = genericFailureStatus;
     response.body = {error: err};
-  }
   return res.status(response.returnCode).json(response.body);
-})
+});
+
+
+
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}/`)
 );

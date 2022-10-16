@@ -10,19 +10,24 @@ class TicketController {
     }
 
     async addTicket() {
-
+        const genericFailureStatus = 500;
+        const genericFailureMessage = 'generic failure status'
         let response = {};
         try {
-
             response.body = await this.service.addTicket();
             response.returnCode = 200;
         } catch (err) {
-            throw err;
+            switch(err.returnCode){
+                case 422:
+                    response.returnCode = 422;
+                    response.body = err.message;
+                default:
+                    response.returnCode = genericFailureStatus;
+                    response.body = genericFailureMessage;
+            }
         }
-
         return response;
     }    
-
 }
 
 module.exports = TicketController;
