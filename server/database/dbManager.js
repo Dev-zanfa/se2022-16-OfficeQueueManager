@@ -7,7 +7,7 @@ class DBManager {
     #address;
 
     constructor() {
-        const address = "./database.sql"; //TODO: insert the correct DB name
+        const address = "./OfficeQueueManagerDB.db"; //TODO: insert the correct DB name
 
         if (!address) {
             throw `The database was not found!`;
