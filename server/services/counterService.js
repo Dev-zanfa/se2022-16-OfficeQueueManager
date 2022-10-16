@@ -1,11 +1,17 @@
 'use strict'
 
 class CounterService {
-    constructor(counterDAO) {
+    constructor(counterDAO, queueDAO, ticketDAO) {
         if (!counterDAO)
             throw 'counterDAO must be defined for counter service!';
+        if (!queueDAO)
+            throw 'queueDAO  must be defined for counter service!';
+        if (!ticketDAO)
+            throw 'ticketDAO  must be defined for counter service!';
 
         this.counterDAO = counterDAO;
+        this.queueDAO = queueDAO;
+        this.ticketDAO = ticketDAO;
     }
 
     async nextCustomer(counterId) {

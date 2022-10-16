@@ -38,7 +38,7 @@ app.post('/api/ticket', async(req,res) => {
 })
 
 
-app.post('/api/counter', async(req,res) => {
+app.get('/api/counter/:userid/nextcustomer', async(req,res) => {
   let response = await counterController.nextCustomer();
   return res.status(response.returnCode).json(response.body);
 })

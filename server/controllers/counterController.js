@@ -1,17 +1,22 @@
 'use strict'
 
 const CounterDAO = require('../daos/counterDAO');
+const TicketDAO = require('./../daos/ticketDAO');
+const QueueDAO = require('../daos/queueDAO');
 const CounterService = require('../services/counterService');
 
 
 class CounterController {
     constructor(dbManager) {
         const counterDAO = new CounterDAO(dbManager);
-        this.service = new CounterService(counterDAO);
+        const ticketDAO = new TicketDAO(dbManager);
+        const queueDAO = new QueueDAO(dbManager);
+        this.service = new CounterService(counterDAO, queueDAO, ticketDAO);
     }
 
     async nextCustomer() {
         const genericFailureStatus = 500;
+        const genericFailureMessage = "generic failure status";
         let response = {};
         try {
             response.body = await this.service.nextCustomer();
@@ -24,10 +29,8 @@ class CounterController {
                     break
                 default:
                     response.returnCode = genericFailureStatus;
-                    response.body = {error: err}
+                    response.body = genericFailureMessage;
             }
-            // response.returnCode = genericFailureStatus; 
-            // response.body = { error: err }; 
         }
         return response;
     }    
