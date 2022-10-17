@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS Queue(
 );
 
 CREATE TABLE IF NOT EXISTS Ticket(
-    service varchar(255) PRIMARY KEY,
-    number integer NOT NULL PRIMARY KEY,
+    service varchar(255) NOT NULL,
+    number integer NOT NULL,
     PRIMARY KEY (service,number),
     FOREIGN KEY (service) REFERENCES Service(tag)
 );
