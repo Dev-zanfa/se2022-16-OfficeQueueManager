@@ -46,4 +46,4 @@ class CounterDAO {
     }
 }
 
-module.exports = TicketDAO;
+module.exports = CounterDAO;

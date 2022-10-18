@@ -19,29 +19,32 @@ class CounterService {
 
     async nextCustomer(counterId) {
         try {
-            //get counter
+            const result = {};
+            // get counter
             const counter = await this.counterDAO.getCounter(counterId);
             if(counter === undefined)
                 throw {returnCode: 4, message: "Counter not found"};
-            //get services of counter
+            // get services of counter
             const services = await this.counterDAO.getCounterServices(counterId);
             for (const s of services) {
-                const service = await this.serviceDAO.getService(s);
-                counter.services.append(service);
+                const service = await this.serviceDAO.getService(s.service);
+                counter.services.push(service);
             }
             // get queues
             const queues = [];
             for (const service of counter.services) {
-                let queue = await this.queueDAO.getQueueByService(service);
-                queues.append(queue);
+                let queue = await this.queueDAO.getQueueByService(service.tag);
+                queues.push(queue);
             }
             
             // longest queue
-            let maxQueue = undefined;
-            queues.forEach(q => {
-                if(maxQueue === undefined || q.count > maxQueue.count)
-                    maxQueue = q;
-            });
+            let selectedQueue = undefined;
+            for (const q of queues) {
+                const lastTicket = await this.ticketDAO.getLastTicketPerService(q.tag);
+                const queueLength = lastTicket - q.count;
+                if(selectedQueue === undefined || queueLength > selectedQueue.count)
+                    selectedQueue = q;
+            }
 
             // service with min service time
             let serviceLowestServiceTime = undefined;
@@ -51,20 +54,24 @@ class CounterService {
             });
 
             // TODO: get next ticket
-            if(maxQueue == 0){
+            if(selectedQueue == 0){
                 // no next ticket
-            }
-            // check if two or more queues have the same max length
-            else if(queues.filter(q => q.count = maxQueue.count).length() != 1){
-                const selectedQueue = queues.find(q => q.tag === serviceLowestServiceTime.tag);
-                // get next ticket from selectedQueue
+                result.ticket = null;
             }
             else{
-                //get next ticket from maxQueue
-
+                // check if two or more queues have the same max length
+                if(queues.filter(q => q.count = selectedQueue.count).length !== 1){
+                    // select queue with lowest service time
+                    selectedQueue = queues.find(q => q.tag === serviceLowestServiceTime.tag);
+                }
+                /*** TODO ***/
+                // first take next ticket then delete it
+                // const nextTicket = await this.ticketDAO.getNextTicketPerService(selectedQueue.tag);
+                // await this.ticketDAO.deleteOldestTicket(selectedQueue.tag);
+                // await this.queueDAO.incrementQueueCount(selectedQueue.tag);
+                // result.ticket = nextTicket.number;
             }
-            
-            return response;
+            return result;
         } catch (err) {
             throw err;
         }

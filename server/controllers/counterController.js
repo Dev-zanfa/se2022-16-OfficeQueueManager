@@ -3,6 +3,7 @@
 const CounterDAO = require('../daos/counterDAO');
 const TicketDAO = require('./../daos/ticketDAO');
 const QueueDAO = require('../daos/queueDAO');
+const ServiceDAO = require('../daos/serviceDAO');
 const CounterService = require('../services/counterService');
 
 
@@ -11,17 +12,19 @@ class CounterController {
         const counterDAO = new CounterDAO(dbManager);
         const ticketDAO = new TicketDAO(dbManager);
         const queueDAO = new QueueDAO(dbManager);
-        this.service = new CounterService(counterDAO, queueDAO, ticketDAO);
+        const serviceDAO = new ServiceDAO(dbManager);
+        this.service = new CounterService(counterDAO, queueDAO, ticketDAO, serviceDAO);
     }
 
-    async nextCustomer() {
+    async nextCustomer(userid) {
         const genericFailureStatus = 500;
         const genericFailureMessage = "generic failure status";
         let response = {};
         try {
-            response.body = await this.service.nextCustomer();
+            response.body = await this.service.nextCustomer(userid);
             response.returnCode = 200;
         } catch (err) {
+            console.log(err);
             switch(err.returnCode){
                 case 4:
                     response.returnCode = 404;
