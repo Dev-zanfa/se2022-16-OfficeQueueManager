@@ -22,17 +22,28 @@ class TicketDAO {
     }
 
     async getLastTicketPerService(service) {
-         const query = 'SELECT number FROM Ticket WHERE service = ? ORDER BY number DESC LIMIT 1 '; 
+        const query = 'SELECT number FROM Ticket WHERE service = ? ORDER BY number DESC LIMIT 1 ';
 
-         try {
+        try {
             const result = await this.dbManager.get(query, [service]);
-            return result ? result : 0;
-         }catch(err){
+            return result[0] ? result[0].number : 0;
+        } catch (err) {
             throw err;
-         }
+        }
 
     }
-    
+
+    async deleteOldestTicket(service) {
+        const query = 'DELETE FROM Ticket WHERE service = ? ORDER BY number LIMIT 1 ';
+
+        try {
+            const result = await this.dbManager.get(query, [service]);
+            return result;
+        } catch (err) {
+            throw err;
+        }
+
+    }
 }
 
 module.exports = TicketDAO;

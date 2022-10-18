@@ -1,10 +1,6 @@
 'use strict'
 
-const dayjs = require('dayjs');
-var customParseFormat = require('dayjs/plugin/customParseFormat')
-dayjs.extend(customParseFormat);
 
-let services = [a,b,c,d];
 class TicketService {
     constructor(ticketDAO) {
         if (!ticketDAO)
@@ -15,13 +11,15 @@ class TicketService {
 
     async addTicket(service) {
         try {
-            if (!services.includes(service)) {
+            //let services = retrieve from database??
+            let services = ['a', 'b', 'c', 'd'];
+            if (!service || !services.includes(service)) {
                 throw {
                     returnCode: 422,
-                    message: 'validation of request body failed'
+                    message: 'validation of request body failed, service does not exists'
                 };
             }
-            const lastNumberforservice = await this.getLastTicketPerService(service);
+            const lastNumberforservice = await this.ticketDAO.getLastTicketPerService(service);
             let newNumberforservice = lastNumberforservice + 1;
             const response = await this.ticketDAO.insertTicket(service, newNumberforservice);
             return response;

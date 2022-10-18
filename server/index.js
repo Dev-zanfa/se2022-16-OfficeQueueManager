@@ -15,13 +15,12 @@ app.use(cors(corsOptions));
 
 const dbManager = new DBManager();
 dbManager.openConnection();
+let genericFailureMessage
 
 //API
-app.post('/api/ticket', async(req,res) => {
-    const ticketController = new TicketController(dbManager);
-    response = await ticketController.addTicket();
-    response.returnCode = genericFailureStatus;
-    response.body = {error: err};
+app.post('/api/ticket', async (req, res) => {
+  const ticketController = new TicketController(dbManager);
+  response = await ticketController.addTicket(req.body);
   return res.status(response.returnCode).json(response.body);
 });
 
