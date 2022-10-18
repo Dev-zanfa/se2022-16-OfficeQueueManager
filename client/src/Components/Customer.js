@@ -1,4 +1,4 @@
-import {Row, Col, Button } from 'react-bootstrap';
+import {Row, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 
