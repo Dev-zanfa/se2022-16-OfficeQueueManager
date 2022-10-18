@@ -1,10 +1,10 @@
 'use strict'
 
-class queueDTO {
+class QueueDTO {
     constructor(tag, count) {
        this.tag = tag
        this.count = count
     }
 }
 
-module.exports = queueDTO;
+module.exports = QueueDTO;

@@ -5,7 +5,8 @@ const CounterDAO = require('../daos/counterDAO');
 const Counter = require('../dtos/counterDTO');
 
 
-const dbManager = new DBManager();
+const dbManager = new DBManager(true);
+// dbManager.openConnection();
 const counterDAO = new CounterDAO(dbManager);
 
 describe('Test Get Counter', () => {
@@ -19,14 +20,14 @@ describe('Test Get Counter', () => {
 
     const expectedServices = ["S1", "S3"];
     const expectedCounter = new Counter(1, "counter1", expectedServices);
-    testInsertCounter("counter1", 1);
+    testInsertCounter("counter1", expectedServices, 1);
     testGetCounter(1, expectedCounter);
     testGetCounterServices(1, expectedServices);
 
 });
 
 
-function testInsertCounter(user, expectedID) {
+function testInsertCounter(user, services, expectedID) {
     test('insert new counter', async () => {
         let id = await counterDAO.insertCounter(user, services);
         expect(id).toStrictEqual(expectedID);
@@ -35,7 +36,7 @@ function testInsertCounter(user, expectedID) {
 
 function testGetCounter(counterId, expectedCounter) {
     test('get counter', async () => {
-        let res = await counterDAO.getCounter(skuID);
+        let res = await counterDAO.getCounter(counterId);
         expect(res.id).toStrictEqual(expectedCounter.id);
         expect(res.user).toStrictEqual(expectedCounter.user);
     });
@@ -48,14 +49,6 @@ function testGetCounterServices(counterId, expectedServices) {
     });
 }
 
-function testGetCounterError(counterId, expectedError){
-    test('throw error on get Counter', async () => {
-        async function getNonExistentCounter(){
-            await counterDAO.getCounter(counterId); 
-        };
-        await expect(getNonExistentCounter).rejects.toEqual(expectedError);
-    });
-}
 
 
 

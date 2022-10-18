@@ -49,7 +49,7 @@ class CounterService {
             // service with min service time
             let serviceLowestServiceTime = undefined;
             counter.services.forEach(s => {
-                if(serviceLowestServiceTime == undefined || s.serviceTime < serviceLowestServiceTime)
+                if(serviceLowestServiceTime == undefined || s.serviceTime < serviceLowestServiceTime.serviceTime)
                     serviceLowestServiceTime = s;
             });
 

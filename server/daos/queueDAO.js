@@ -24,6 +24,7 @@ class QueueDAO {
         const query = "UPDATE Queue SET count = count + 1 WHERE service = ?";
         try {
             const result = await this.dbManager.query(query, [serviceTag]);
+            return result;
         } catch (err) {
             throw err;
         }
