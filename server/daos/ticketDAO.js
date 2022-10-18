@@ -33,15 +33,23 @@ class TicketDAO {
 
     }
 
-    async deleteOldestTicket(service) {
-        const query = 'DELETE FROM Ticket WHERE service = ? ORDER BY number LIMIT 1 ';
+    async getOldestTicket(service) {
+        const query = 'SELECT number FROM Ticket WHERE service = ? ORDER BY number LIMIT 1 ';
 
         try {
             const result = await this.dbManager.get(query, [service]);
+            return result[0] ? result[0].number : 0;
+        } catch (err) {throw err;}
+
+    }
+
+    async deleteOldestTicket(service, number) {
+        const query = 'DELETE FROM Ticket WHERE service = ? AND number = ? ';
+
+        try {
+            const result = await this.dbManager.get(query, [service, number]);
             return result;
-        } catch (err) {
-            throw err;
-        }
+        } catch (err) {throw err;}
 
     }
 }
