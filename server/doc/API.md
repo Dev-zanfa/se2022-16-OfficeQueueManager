@@ -13,6 +13,7 @@
   - Response body: 
     ```
     {
+        "service" : "S1",
         "ticket" : 2
     }
     ```

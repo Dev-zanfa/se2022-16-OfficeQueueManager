@@ -39,11 +39,14 @@ class CounterService {
             
             // longest queue
             let selectedQueue = undefined;
+            let maxQueueLength = 0;
             for (const q of queues) {
                 const lastTicket = await this.ticketDAO.getLastTicketPerService(q.tag);
                 const queueLength = lastTicket - q.count;
-                if(selectedQueue === undefined || queueLength > selectedQueue.count)
+                if(queueLength > maxQueueLength){
                     selectedQueue = q;
+                    maxQueueLength = queueLength;
+                }
             }
 
             // service with min service time
@@ -54,22 +57,23 @@ class CounterService {
             });
 
             // TODO: get next ticket
-            if(selectedQueue == 0){
+            if(selectedQueue === undefined){
                 // no next ticket
+                result.service = null;
                 result.ticket = null;
             }
             else{
                 // check if two or more queues have the same max length
-                if(queues.filter(q => q.count = selectedQueue.count).length !== 1){
+                if(queues.filter(q => q.count === maxQueueLength).length !== 1){
                     // select queue with lowest service time
                     selectedQueue = queues.find(q => q.tag === serviceLowestServiceTime.tag);
                 }
-                /*** TODO ***/
                 // first take next ticket then delete it
-                // const nextTicket = await this.ticketDAO.getNextTicketPerService(selectedQueue.tag);
-                // await this.ticketDAO.deleteOldestTicket(selectedQueue.tag);
-                // await this.queueDAO.incrementQueueCount(selectedQueue.tag);
-                // result.ticket = nextTicket.number;
+                const nextTicket = await this.ticketDAO.getOldestTicket(selectedQueue.tag);
+                await this.ticketDAO.deleteOldestTicket(selectedQueue.tag, nextTicket);
+                await this.queueDAO.incrementQueueCount(selectedQueue.tag);
+                result.service = selectedQueue.tag;
+                result.ticket = nextTicket;
             }
             return result;
         } catch (err) {
