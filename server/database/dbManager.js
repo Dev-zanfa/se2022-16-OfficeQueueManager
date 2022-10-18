@@ -5,14 +5,12 @@ const sqlite3 = require('sqlite3');
 class DBManager {
     #db;
     #address;
-
     constructor() {
         const address = "./OfficeQueueManagerDB.db"; //TODO: insert the correct DB name
 
         if (!address) {
             throw `The database was not found!`;
         }
-
         this.#address = address;
     }
 

@@ -10,6 +10,7 @@
     "dayjs": "^1.11.5",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
+    "nodemon": "^2.0.20",
     "sqlite3": "^5.1.2"
   },
   "devDependencies": {
@@ -23,8 +24,7 @@
   "scripts": {
     "start": "node index.js",
     "apiTest": "./node_modules/.bin/mocha test --runInBand--timeout 10000 --exit > ./apiTestResult.txt",
-    "testcoverage": "node_modules/.bin/jest --runInBand --coverage > ./unitTestResult.txt",
-    "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --runInBand --timeout 10000 --exit",
-    "test": "node_modules/.bin/jest --runInBand"
+    "test": "node_modules/.bin/jest --runInBand --coverage > ./unitTestResult.txt",
+    "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --runInBand --timeout 10000 --exit"
   }
 }

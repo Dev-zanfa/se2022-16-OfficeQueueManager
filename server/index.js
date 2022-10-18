@@ -24,16 +24,9 @@ const counterController = new CounterController(dbManager);
 
 
 //API
-app.post('/api/ticket', async(req,res) => {
-  const genericFailureStatus = 500;
-  let response={}
-  try {
-    const ticketController = new TicketController(dbManager);
-    response = await ticketController.addTicket();
-  }catch(err){
-    response.returnCode = genericFailureStatus;
-    response.body = {error: err};
-  }
+app.post('/api/ticket', async (req, res) => {
+  const ticketController = new TicketController(dbManager);
+  response = await ticketController.addTicket(req.body);
   return res.status(response.returnCode).json(response.body);
 })
 
@@ -42,9 +35,6 @@ app.get('/api/counter/:userid/nextcustomer', async(req,res) => {
   let response = await counterController.nextCustomer();
   return res.status(response.returnCode).json(response.body);
 })
-
-
-
 
 
 app.listen(PORT, () =>
