@@ -21,21 +21,18 @@ dbManager.openConnection();
 
 //Controllers
 const counterController = new CounterController(dbManager);
-
+const ticketController = new TicketController(dbManager);
 
 //API
-app.post('/api/ticket', async (req, res) => {
-  const ticketController = new TicketController(dbManager);
+app.post("/api/ticket", async (req, res) => {
   response = await ticketController.addTicket(req.body);
   return res.status(response.returnCode).json(response.body);
-})
+});
 
-
-app.get('/api/counter/:userid/nextcustomer', async(req,res) => {
+app.get("/api/counter/:userid/nextcustomer", async (req, res) => {
   let response = await counterController.nextCustomer(req.params.userid);
   return res.status(response.returnCode).json(response.body);
-})
-
+});
 
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}/`)

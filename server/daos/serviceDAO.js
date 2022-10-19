@@ -1,14 +1,12 @@
-'use strict';
+"use strict";
 
-const Service = require('../dtos/serviceDTO');
+const Service = require("../dtos/serviceDTO");
 
 class ServiceDAO {
-
-    constructor(dbManager) {
-        if (!dbManager)
-            throw 'DBManager must be defined for Service dao!';
-        this.dbManager = dbManager;
-    }
+  constructor(dbManager) {
+    if (!dbManager) throw "DBManager must be defined for Service dao!";
+    this.dbManager = dbManager;
+  }
 
     async getService(serviceTag) {
         const query = "SELECT * FROM Service WHERE tag = ?";
@@ -28,6 +26,17 @@ class ServiceDAO {
         } catch (err) {
             throw err;
         }
+    }
+
+    async getAllServices() {
+      const query = "SELECT tag FROM Service";
+      try {
+        const result = await this.dbManager.get(query);
+        return result;
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
     }
     
 }
