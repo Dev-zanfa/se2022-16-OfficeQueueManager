@@ -53,7 +53,7 @@ class CounterDAO {
             if(counter === undefined){       // counter does not exist
                 throw {err : 401, msg : "Counter not found" };
             }
-            const login = await verifyPassword(user.password, user.salt, password);
+            const login = await verifyPassword(counter.password, counter.salt, password);
             if(!login)
                 throw {err : 401, msg : "Invalid password" };
             return new Counter(counter.id, counter.user);
