@@ -6,7 +6,7 @@ const SERVER_BASE = `${SERVER_HOST}:${SERVER_PORT}/api/`;
 
 async function logIn(credentials) {
     //call: POST /api/...
-        response = await fetch("/api/counterSessions", {
+    const response = await fetch("/api/counterSessions", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
