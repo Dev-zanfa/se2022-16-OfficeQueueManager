@@ -1,11 +1,13 @@
 const DBManager = require('./../database/dbManager');
 const TicketService = require('./../services/ticketService');
 const TicketDAO = require('./../daos/ticketDAO');
+const QueueDAO = require('../daos/queueDAO');
 const { purgeAllTables } = require('./purgeUtils');
 
 const dbManager = new DBManager();
 const ticketDAO = new TicketDAO(dbManager);
-const ticketService = new TicketService(ticketDAO);
+const queueDAO = new QueueDAO(dbManager);
+const ticketService = new TicketService(ticketDAO, queueDAO);
 
 describe('Ticket DAO unit test', () => {
     beforeAll(async () => { dbManager.openConnection(); await purgeAllTables(dbManager) });
@@ -16,8 +18,10 @@ describe('Ticket DAO unit test', () => {
     });
 
     describe('Constructor test', () => {
-        expect(() => new TicketService())
+        expect(() => new TicketService(null, queueDAO))
             .toThrow('ticketDAO must be defined for ticketService service!');
+        expect(() => new TicketService(ticketDAO, null))
+            .toThrow('queueDAO must be defined for ticketService service!');
     });
 
     test('Add new ticket', async () => {
