@@ -44,6 +44,50 @@ class CounterDAO {
             throw err;
         }
     }
+
+
+    loginUser = async (user, password) => {
+        try{
+            const sql = "SELECT * FROM Counter WHERE user = ? ";
+            const counter = await this.connectionDB.DBget(sql, [user]);
+            if(counter === undefined){       // counter does not exist
+                throw {err : 401, msg : "Counter not found" };
+            }
+            const login = await verifyPassword(user.password, user.salt, password);
+            if(!login)
+                throw {err : 401, msg : "Invalid password" };
+            return new Counter(counter.id, counter.user);
+        }
+        catch(err){
+            throw err;
+        }
+    }
+
+
+
+
+    /*
+    const generateSecurePassword = async (password) => {
+        const buf = crypto.randomBytes(128);            // generate random bytes
+        const salt = buf.toString('hex');               // convert bytes to hex string (to store in the DB)
+        const hash = crypto.createHash('sha256');
+        hash.update(password);                          // generate digest as SHA-256(password | salt)
+        hash.update(buf);
+        const pwd = hash.digest('hex');
+        return {"pwd": pwd, "salt": salt};
+    }
+    
+    const verifyPassword = async (passwordStored, saltStored, password) => {
+        const salt = Buffer.from(saltStored, 'hex');    // convert saltStored (hex string) to bytes
+        const hash = crypto.createHash('sha256');
+        hash.update(password);                          // generate digest as SHA-256(password | salt)
+        hash.update(salt);
+        const pwd = hash.digest('hex');
+        if(pwd === passwordStored)             // check if digest stored in the DB is equal to digest computed above
+            return true;
+        return false;
+    }*/
+
 }
 
 module.exports = CounterDAO;

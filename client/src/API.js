@@ -1,4 +1,4 @@
-async function logIn(credentials, type) {
+async function logIn(credentials) {
     //call: POST /api/...
         response = await fetch("/api/counterSessions", {
           method: "POST",
@@ -7,16 +7,11 @@ async function logIn(credentials, type) {
           },
           body: JSON.stringify(credentials),
         });
-        
-      /*default:
-        //error: 
-        console.log("How did you get that?");
-        return null;*/
+
     
     if (response.ok) {
       console.log("client: login returned ok from server");
       let user = await response.json();
-      user.type = type;
       return user;
     } else {
       try {
