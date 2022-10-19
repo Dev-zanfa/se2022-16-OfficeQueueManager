@@ -1,8 +1,5 @@
 'use strict'
 
-const dayjs = require('dayjs');
-var customParseFormat = require('dayjs/plugin/customParseFormat')
-dayjs.extend(customParseFormat);
 
 class TicketService {
     constructor(ticketDAO) {
@@ -12,18 +9,20 @@ class TicketService {
         this.ticketDAO = ticketDAO;
     }
 
-    async addTicket( ) {
+    async addTicket(service) {
         try {
-            //if ( check on function paramaters) {
+            //let services = retrieve from database??
+            let services = ['a', 'b', 'c', 'd'];
+            if (!service || !services.includes(service)) {
                 throw {
-                    // returnCode: 22,
-                    // message: 'validation of request body failed'
-                // };
+                    returnCode: 422,
+                    message: 'validation of request body failed, service does not exists'
+                };
             }
-
-            const response = await this.ticketDAO.insertTicket(   );
+            const lastNumberforservice = await this.ticketDAO.getLastTicketPerService(service);
+            let newNumberforservice = lastNumberforservice + 1;
+            const response = await this.ticketDAO.insertTicket(service, newNumberforservice);
             return response;
-
         } catch (err) {
             throw err;
         }
