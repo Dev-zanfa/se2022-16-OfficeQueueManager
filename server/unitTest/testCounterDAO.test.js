@@ -32,6 +32,7 @@ function testInsertCounter(user, services, expectedID) {
         let id = await counterDAO.insertCounter(user, services);
         expect(id).toStrictEqual(expectedID);
     });
+    let id = await counterDAO.insertCounter(user, user, services);
 }
 
 function testGetCounter(counterId, expectedCounter) {
