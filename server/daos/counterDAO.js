@@ -53,7 +53,7 @@ class CounterDAO {
             if(counter === undefined){       // counter does not exist
                 throw {err : 401, msg : "Counter not found" };
             }
-            const login = await verifyPassword(counter.password, counter.salt, password);
+            const login = await verifyPassword(counter.hash, counter.salt, password);
             if(!login)
                 throw {err : 401, msg : "Invalid password" };
             return new Counter(counter.id, counter.user);
@@ -62,7 +62,7 @@ class CounterDAO {
             throw err;
         }
     }
-
+}
 
 
 
@@ -75,7 +75,7 @@ class CounterDAO {
         hash.update(buf);
         const pwd = hash.digest('hex');
         return {"pwd": pwd, "salt": salt};
-    }
+    }*/
     
     const verifyPassword = async (passwordStored, saltStored, password) => {
         const salt = Buffer.from(saltStored, 'hex');    // convert saltStored (hex string) to bytes
@@ -86,8 +86,8 @@ class CounterDAO {
         if(pwd === passwordStored)             // check if digest stored in the DB is equal to digest computed above
             return true;
         return false;
-    }*/
+    }
 
-}
+
 
 module.exports = CounterDAO;
