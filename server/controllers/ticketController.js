@@ -1,13 +1,15 @@
 'use strict';
 
 const TicketDAO = require('./../daos/ticketDAO');
+const QueueDAO = require('./../daos/queueDAO');
 const TicketService = require('./../services/ticketService');
 
 
 class TicketController {
     constructor(dbManager) {
         const ticketDAO = new TicketDAO(dbManager);
-        this.service = new TicketService(ticketDAO);
+        const queueDAO = new QueueDAO(dbManager);
+        this.service = new TicketService(ticketDAO, queueDAO);
     }
 
     async addTicket(reqBody) {
