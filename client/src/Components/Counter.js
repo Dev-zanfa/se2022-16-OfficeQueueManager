@@ -11,6 +11,7 @@ function Counter(props) {
             <Row className='text-center align-items-center align-middle' 
             style={{width: "200px", height: "100px", border: 'solid black'}}>
                 <div>
+                    {/* need this data from the api, should be determined based on the login */}
                     <h3>{count}</h3>
                     <p>{type}</p>
                 </div>
