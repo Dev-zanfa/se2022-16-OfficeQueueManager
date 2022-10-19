@@ -14,7 +14,7 @@ class QueueDAO {
         const query = "SELECT * FROM Queue WHERE service = ?";
         try {
             const result = await this.dbManager.get(query, [serviceTag], true);
-            return new Queue(result.service, result.count);
+            return result ? new Queue(result.service, result.count) : undefined;
         } catch (err) {
             throw err;
         }

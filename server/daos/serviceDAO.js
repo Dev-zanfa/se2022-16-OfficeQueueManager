@@ -14,7 +14,17 @@ class ServiceDAO {
         const query = "SELECT * FROM Service WHERE tag = ?";
         try {
             const result = await this.dbManager.get(query, [serviceTag], true);
-            return new Service(result.tag, result.name, result.service_time);
+            return result ? new Service(result.tag, result.name, result.service_time) : undefined;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async insertService(serviceTag, name, service_time){
+        const query = "INSERT INTO Service (tag, name, service_time) VALUES (?, ?, ?)";
+        try {
+            const result = await this.dbManager.query(query, [serviceTag, name, service_time]);
+            return result;
         } catch (err) {
             throw err;
         }
