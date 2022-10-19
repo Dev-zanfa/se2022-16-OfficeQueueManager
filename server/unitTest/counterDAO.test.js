@@ -1,21 +1,29 @@
-'use strict';
-
 const DBManager = require('../database/dbManager');
 const CounterDAO = require('../daos/counterDAO');
 const Counter = require('../dtos/counterDTO');
+const { purgeAllTables } = require('./purgeUtils');
 
-
-const dbManager = new DBManager(true);
-// dbManager.openConnection();
+const dbManager = new DBManager();
 const counterDAO = new CounterDAO(dbManager);
 
-describe('Test Get Counter', () => {
+describe('Counter DAO unit test', () => {
     beforeAll(async () => {
         dbManager.openConnection();
+        await purgeAllTables(dbManager);
     });
 
-    afterAll(async () => {
-        dbManager.closeConnection();
+    beforeEach(() => { 
+        dbManager.openConnection(); 
+    });
+
+    afterEach(async () => {
+        try { dbManager.closeConnection(); }
+        catch (err) {/*foo*/ }
+    });
+    
+    describe('Constructor test', () => {
+        expect(() => new CounterDAO())
+            .toThrow('DBManager must be defined for Counter dao!');
     });
 
     const expectedServices = ["S1", "S3"];
@@ -23,19 +31,18 @@ describe('Test Get Counter', () => {
     testInsertCounter("counter1", expectedServices, 1);
     testGetCounter(1, expectedCounter);
     testGetCounterServices(1, expectedServices);
-
 });
 
 
 function testInsertCounter(user, services, expectedID) {
-    test('insert new counter', async () => {
+    test('test insert counter', async () => {
         let id = await counterDAO.insertCounter(user, services);
         expect(id).toStrictEqual(expectedID);
     });
 }
 
 function testGetCounter(counterId, expectedCounter) {
-    test('get counter', async () => {
+    test('test get counter', async () => {
         let res = await counterDAO.getCounter(counterId);
         expect(res.id).toStrictEqual(expectedCounter.id);
         expect(res.user).toStrictEqual(expectedCounter.user);
@@ -43,9 +50,9 @@ function testGetCounter(counterId, expectedCounter) {
 }
 
 function testGetCounterServices(counterId, expectedServices) {
-    test('get services of counter', async () => {
+    test('test get services of counter', async () => {
         let res = await counterDAO.getCounterServices(counterId);
-        expect(res).toStrictEqual(expectedServices);
+        expect(res).toEqual(expectedServices);
     });
 }
 

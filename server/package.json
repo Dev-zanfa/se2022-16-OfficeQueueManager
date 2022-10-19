@@ -24,7 +24,7 @@
   "scripts": {
     "start": "node index.js",
     "apiTest": "./node_modules/.bin/mocha test --runInBand--timeout 10000 --exit > ./apiTestResult.txt",
-    "test": "node_modules/.bin/jest --runInBand --coverage > ./unitTestResult.txt",
+    "test": "jest --runInBand --coverage > ./unitTestResult.txt",
     "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --runInBand --timeout 10000 --exit"
   }
 }
