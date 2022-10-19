@@ -7,7 +7,24 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
+    "dayjs": "^1.11.5",
     "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "nodemon": "^2.0.20",
     "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "check-code-coverage": "^1.10.0",
+    "jest": "^27.5.1",
+    "mocha": "^9.2.2"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "apiTest": "./node_modules/.bin/mocha test --runInBand--timeout 10000 --exit > ./apiTestResult.txt",
+    "test": "node_modules/.bin/jest --runInBand --coverage > ./unitTestResult.txt",
+    "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --runInBand --timeout 10000 --exit"
   }
 }

@@ -1,9 +1,8 @@
 'use strict'
-
 class ticketDTO {
-    constructor(par) {
-        this.par = par;
+    constructor(number, tag) {
+        this.number = number;
+        this.tag = tag;
     }
 }
-
 module.exports = ticketDTO;
