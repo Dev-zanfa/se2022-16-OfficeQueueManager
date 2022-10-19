@@ -4,6 +4,7 @@ const cors = require("cors");
 const DBManager = require("./database/dbManager");
 const TicketController = require("./controllers/ticketController");
 const CounterController = require("./controllers/counterController");
+const BatchController = require("./controllers/batchController");
 
 const PORT = 3001;
 app = express();
@@ -22,6 +23,8 @@ dbManager.openConnection();
 //Controllers
 const counterController = new CounterController(dbManager);
 const ticketController = new TicketController(dbManager);
+const batchController = new BatchController(dbManager);
+batchController.reset();
 
 //API
 app.post("/api/ticket", async (req, res) => {

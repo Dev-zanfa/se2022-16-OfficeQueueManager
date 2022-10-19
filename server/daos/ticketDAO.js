@@ -62,6 +62,15 @@ class TicketDAO {
       throw err;
     }
   }
+
+  async deleteAllickets() {
+    const query = "DELETE FROM Ticket";
+    try {
+      await this.dbManager.get(query);
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = TicketDAO;
