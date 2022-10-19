@@ -26,7 +26,7 @@ class CounterController {
         } catch (err) {
             console.log(err);
             switch(err.returnCode){
-                case 4:
+                case 404:
                     response.returnCode = 404;
                     response.body = err.message;
                     break

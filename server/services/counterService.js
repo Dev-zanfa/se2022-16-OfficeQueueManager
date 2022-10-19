@@ -23,29 +23,27 @@ class CounterService {
             // get counter
             const counter = await this.counterDAO.getCounter(counterId);
             if(counter === undefined)
-                throw {returnCode: 4, message: "Counter not found"};
+                throw {returnCode: 404, message: "Counter not found"};
             // get services of counter
             const services = await this.counterDAO.getCounterServices(counterId);
             for (const s of services) {
-                const service = await this.serviceDAO.getService(s.service);
+                const service = await this.serviceDAO.getService(s);
                 counter.services.push(service);
             }
             // get queues
             const queues = [];
             for (const service of counter.services) {
-                let queue = await this.queueDAO.getQueueByService(service.tag);
+                const lastTicket = await this.ticketDAO.getLastTicketPerService(service.tag);
+                const queue = await this.queueDAO.getQueueByService(service.tag);
+                queue.length = lastTicket - queue.count;
                 queues.push(queue);
             }
             
             // longest queue
             let selectedQueue = undefined;
-            let maxQueueLength = 0;
             for (const q of queues) {
-                const lastTicket = await this.ticketDAO.getLastTicketPerService(q.tag);
-                const queueLength = lastTicket - q.count;
-                if(queueLength > maxQueueLength){
+                if(selectedQueue === undefined || q.length > selectedQueue.length){
                     selectedQueue = q;
-                    maxQueueLength = queueLength;
                 }
             }
 
@@ -56,15 +54,14 @@ class CounterService {
                     serviceLowestServiceTime = s;
             });
 
-            // TODO: get next ticket
-            if(selectedQueue === undefined){
+            if(selectedQueue.length <= 0){
                 // no next ticket
                 result.service = null;
                 result.ticket = null;
             }
             else{
                 // check if two or more queues have the same max length
-                if(queues.filter(q => q.count === maxQueueLength).length !== 1){
+                if(queues.filter(q => q.length === selectedQueue.length).length !== 1){
                     // select queue with lowest service time
                     selectedQueue = queues.find(q => q.tag === serviceLowestServiceTime.tag);
                 }
@@ -75,6 +72,7 @@ class CounterService {
                 result.service = selectedQueue.tag;
                 result.ticket = nextTicket;
             }
+            // console.log("############## " + result.service + "  " + result.ticket);
             return result;
         } catch (err) {
             throw err;
