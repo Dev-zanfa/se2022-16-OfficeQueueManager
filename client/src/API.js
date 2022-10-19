@@ -60,11 +60,30 @@ async function logIn(credentials) {
     }
 };
 
+const nextCustomer = async() => {
+  try {
+    const response= await fetch(SERVER_BASE + `counter/nextcustomer`,{
+      credentials: 'include'
+   });
+   const result = await response.json();
+   if (response.ok) {
+    return result;
+   }
+   else {
+    const errMessage = await response.json();
+    throw errMessage;
+ }
+  } catch (e) {
+    throw e;
+  }
+};
+
   const API = {
     logIn,
     logOut,
     getUserInfo,
-    newTicket };
+    newTicket,
+  nextCustomer };
 
 export default API;
 
