@@ -12,7 +12,7 @@ class TicketService {
     async addTicket(service) {
         try {
             //let services = retrieve from database??
-            let services = ['a', 'b', 'c', 'd'];
+            let services = ['S1', 'S2', 'S3'];
             if (!service || !services.includes(service)) {
                 throw {
                     returnCode: 422,

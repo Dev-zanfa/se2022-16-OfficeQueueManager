@@ -1,6 +1,7 @@
 import {Row, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import API from '../API';
 
 function Customer(props) {
     const [service, setService] = useState("Choose service type");
@@ -15,9 +16,9 @@ function Customer(props) {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => setService('information')}>Information</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setService('delivery')}>Delivery</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setService('something')}>Something</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setService('S1')}>S1</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setService('S2')}>S2</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setService('S3')}>S3</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown> 
 
@@ -27,7 +28,7 @@ function Customer(props) {
             onClick={() => {
                 if(service != 'Choose service type'){
                     setError(false);
-                    // GIVE TICKET
+                    API.newTicket(service);
                 } else 
                     setError(true);
             }}>
