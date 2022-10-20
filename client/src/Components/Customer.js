@@ -48,8 +48,9 @@ function Customer(props) {
                     onClick={() => {
                         if(service != 'Choose service type'){
                             setError(false);
-                            API.newTicket(service);
-                            setTicket(34);
+                            API.newTicket(service)
+                            .then(number => setTicket(number))
+                            .catch(() => setTicket('error'));
                         } else 
                             setError(true);
                     }}>

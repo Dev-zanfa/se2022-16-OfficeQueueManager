@@ -55,6 +55,11 @@ async function logIn(credentials) {
           body:  JSON.stringify({service: service}),
         }
       );
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw response.json(); 
+      }
     } catch (e) {
       throw e;
     }
