@@ -34,7 +34,7 @@ class TicketService {
         service,
         newNumberforservice
       );
-      return response;
+      return newNumberforservice;
     } catch (err) {
       throw err;
     }

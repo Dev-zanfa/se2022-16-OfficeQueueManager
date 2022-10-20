@@ -19,7 +19,7 @@ class TicketController {
     const genericFailureMessage = "generic failure status";
     let response = {};
     try {
-      await this.service.addTicket(reqBody.service);
+      response.body = await this.service.addTicket(reqBody.service);
       response.returnCode = 200;
     } catch (err) {
       switch (err.returnCode) {
