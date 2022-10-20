@@ -1,20 +1,14 @@
-import {Row, } from 'react-bootstrap';
+import { Row, Button } from 'react-bootstrap';
 import { useState } from 'react';
 
 function Counter(props) {
-    const [count, setCount] = useState(123);
-    const [type, setType] = useState('service type');
 
     return <>
     <Row className='justify-content-center align-items-center w-100 vh-100'>
         <Row className='justify-content-center'> 
-            <Row className='text-center align-items-center align-middle' 
-            style={{width: "200px", height: "100px", border: 'solid black'}}>
-                <div>
-                    <h3>{count}</h3>
-                    <p>{type}</p>
-                </div>
-            </Row>
+            <Button style={{width: "200px", height: "100px", marginTop: "20px"}} onClick={() => {}}>
+                    <div>Next customer</div>
+            </Button>
         </Row>
     </Row>
     </>;
