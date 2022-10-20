@@ -80,6 +80,23 @@ const getService = async () => {
     } else {
       throw response.json(); 
     }
+      } catch (e) {
+    throw e;
+  }
+};
+const nextCustomer = async() => {
+  try {
+    const response= await fetch(SERVER_BASE + `counter/1/nextcustomer`);
+    console.log(response);
+   const result = await response.json();
+   console.log(result);
+   if (response.ok) {
+    return result;
+   }
+   else {
+    const errMessage = await response.json();
+    throw errMessage;
+ }
   } catch (e) {
     throw e;
   }
@@ -90,7 +107,8 @@ const API = {
   logOut,
   getUserInfo,
   newTicket,
-  getService
+  getService,
+  nextCustomer
 };
 
 export default API;
