@@ -18,16 +18,16 @@ class ServiceDAO {
     }
   }
 
-  async getAllServices() {
-    const query = "SELECT tag FROM Service";
-    try {
-      const result = await this.dbManager.get(query);
-      return result;
-    } catch (err) {
-      console.log(err);
-      throw err;
+    async getAllServices() {
+      const query = "SELECT * FROM Service";
+      try {
+        const result = await this.dbManager.get(query);
+        return result.map(elem=>new Service(elem.tag,elem.name,elem.service_time));
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
     }
-  }
 }
 
 module.exports = ServiceDAO;

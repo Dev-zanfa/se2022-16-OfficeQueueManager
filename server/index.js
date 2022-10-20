@@ -29,6 +29,11 @@ app.post("/api/ticket", async (req, res) => {
   return res.status(response.returnCode).json(response.body);
 });
 
+app.get("/api/service", async (req, res) => {
+  let response = await ticketController.getAllServices();
+  return res.status(response.returnCode).json(response.body);
+});
+
 app.get("/api/counter/:userid/nextcustomer", async (req, res) => {
   let response = await counterController.nextCustomer(req.params.userid);
   return res.status(response.returnCode).json(response.body);
