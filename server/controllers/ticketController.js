@@ -35,6 +35,28 @@ class TicketController {
     }
     return response;
   }
+
+  async getAllServices(reqBody) {
+    const genericFailureStatus = 500;
+    const genericFailureMessage = "generic failure status";
+    let response = {};
+    try {
+      response.body=await this.service.getAllServices();
+      response.returnCode = 200;
+    } catch (err) {
+      switch (err.returnCode) {
+        case 422:
+          response.returnCode = 422;
+          response.body = err.message;
+          break;
+        default:
+          response.returnCode = genericFailureStatus;
+          response.body = genericFailureMessage;
+          break;
+      }
+    }
+    return response;
+  }
 }
 
 module.exports = TicketController;

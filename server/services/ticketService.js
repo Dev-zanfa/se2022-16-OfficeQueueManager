@@ -39,6 +39,14 @@ class TicketService {
       throw err;
     }
   }
+
+  async getAllServices() {
+    try {
+      return await this.serviceDao.getAllServices();
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = TicketService;
