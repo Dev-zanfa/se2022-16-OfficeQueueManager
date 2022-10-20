@@ -66,7 +66,7 @@ function Main(){
     <Route path="/">  </Route>
       <Route path="login" element={<LoginForm login={handleLogin} />}/> 
       <Route path="customer" element={<Customer/>}/> 
-      <Route path="counter" element={<Counter nextCustomer={handleNextCustomer}/>}/> 
+      <Route path="counter" element={<Counter nextCustomer={handleNextCustomer} ticketNo={nextTicket} service={service}/>}/> 
   
   </Routes>
 

@@ -62,10 +62,10 @@ async function logIn(credentials) {
 
 const nextCustomer = async() => {
   try {
-    const response= await fetch(SERVER_BASE + `counter/nextcustomer`,{
-      credentials: 'include'
-   });
+    const response= await fetch(SERVER_BASE + `counter/1/nextcustomer`);
+    console.log(response);
    const result = await response.json();
+   console.log(result);
    if (response.ok) {
     return result;
    }
