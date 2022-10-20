@@ -12,7 +12,7 @@ class TicketService {
     this.serviceDao = serviceDao;
     this.queueDao = queueDao;
   }
-
+  
   async addTicket(service) {
     try {
       let services = await this.serviceDao.getAllServices();
@@ -38,7 +38,7 @@ class TicketService {
     } catch (err) {
       throw err;
     }
-  }
+ }
 
   async getAllServices() {
     try {
