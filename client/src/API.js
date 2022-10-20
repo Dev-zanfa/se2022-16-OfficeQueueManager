@@ -65,11 +65,33 @@ async function logIn(credentials) {
     }
 };
 
-  const API = {
-    logIn,
-    logOut,
-    getUserInfo,
-    newTicket };
+const getService = async () => {
+  try {
+    const response = await fetch(
+      new URL("service", SERVER_BASE), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw response.json(); 
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
+const API = {
+  logIn,
+  logOut,
+  getUserInfo,
+  newTicket,
+  getService
+};
 
 export default API;
 

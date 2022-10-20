@@ -1,5 +1,4 @@
 import { Row, Button } from 'react-bootstrap';
-import { useState } from 'react';
 
 function Counter(props) {
 
