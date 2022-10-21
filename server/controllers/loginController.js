@@ -1,6 +1,7 @@
 'use strict'
 
 const CounterDAO = require('../daos/counterDAO');
+const LoginService = require("../services/loginService");
 
 class LoginController {
     constructor(dbManager) {

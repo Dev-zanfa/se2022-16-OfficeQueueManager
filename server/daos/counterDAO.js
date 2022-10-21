@@ -1,6 +1,7 @@
 'use strict';
 
 const Counter = require('../dtos/counterDTO');
+const crypto = require("crypto");
 
 class CounterDAO {
 
@@ -21,14 +22,16 @@ class CounterDAO {
     }
 
   async insertCounter(user, password, services = []) {
-    let query = "INSERT INTO Counter (user, hash, salt) VALUE (?, ?, ?)";
+    let query = "INSERT INTO Counter (user, hash, salt) VALUES (?, ?, ?)";
     try {
+      const output = await generateSecurePassword(password);
       const counterId = await this.dbManager.query(query, [
         user,
-        ...generateSecurePassword(password),
+        output[0],
+        output[1]
       ]);
       query =
-        "INSERT INTO Link_counter_service (counter, service) VALUE (?, ?)";
+        "INSERT INTO Link_counter_service (counter, service) VALUES (?, ?)";
       for (const s of services) {
         await this.dbManager.query(query, [counterId, s]);
       }
@@ -41,14 +44,18 @@ class CounterDAO {
   async loginUser(user, password) {
     try {
       const sql = "SELECT * FROM Counter WHERE user = ? ";
-      const counter = await this.connectionDB.DBget(sql, [user]);
-      if (counter === undefined) {
+      const counter = await this.dbManager.get(sql, [user]);
+      if (counter === undefined || counter[0] === undefined) {
         // counter does not exist
         throw { err: 401, msg: "Counter not found" };
       }
-      const login = await verifyPassword(counter.hash, counter.salt, password);
+      const login = await verifyPassword(
+        counter[0].hash,
+        counter[0].salt,
+        password
+      );
       if (!login) throw { err: 401, msg: "Invalid password" };
-      return new Counter(counter.id, counter.user);
+      return new Counter(counter[0].id, counter[0].user);
     } catch (err) {
       throw err;
     }

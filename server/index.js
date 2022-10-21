@@ -8,7 +8,7 @@ const DBManager = require("./database/dbManager");
 const TicketController = require("./controllers/ticketController");
 const CounterController = require("./controllers/counterController");
 const LoginController = require("./controllers/loginController");
-const LoginController = require("./controllers/loginController");
+const CounterDAO = require("./daos/counterDAO");
 
 const PORT = 3001;
 app = express();
@@ -28,7 +28,13 @@ app.use(
     saveUninitialized: false,
   })
 );
+// DB
+const dbManager = new DBManager();
+dbManager.openConnection();
 
+//Controllers
+const counterController = new CounterController(dbManager);
+const ticketController = new TicketController(dbManager);
 const loginController = new LoginController(dbManager);
 
 passport.use(
@@ -38,7 +44,7 @@ passport.use(
       return callback(null, false, {
         message: "Incorrect username and/or password.",
       });
-    return callback(null, user);
+    return callback(null, user.body);
   })
 );
 
@@ -62,7 +68,7 @@ const isLoggedIn = (req, res, next) => {
 };
 
 app.post("/login", passport.authenticate("local"), (req, res) => {
-  res.json({ user: req.user });
+  res.json({ user: req.user.user,id: req.user.id, });
 });
 
 app.post("/logout", (req, res) => {
@@ -73,17 +79,10 @@ app.post("/logout", (req, res) => {
   else res.end();
 });
 
-// DB
-const dbManager = new DBManager();
-dbManager.openConnection();
-
-//Controllers
-const counterController = new CounterController(dbManager);
 
 
 //API
 app.post('/api/ticket', async (req, res) => {
-  const ticketController = new TicketController(dbManager);
   response = await ticketController.addTicket(req.body);
   return res.status(response.returnCode).json(response.body);
 })
