@@ -10,11 +10,11 @@ class LoginService {
 
     async login(id, password) {
         try {
-            const result = {};
             // get counter
             const counter = await this.counterDAO.loginUser(id, password);
             if(counter === undefined)
                 throw {returnCode: 4, message: "Counter not found"};
+                return counter;
         } catch (err) {
             throw err;
          }

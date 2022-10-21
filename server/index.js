@@ -7,6 +7,8 @@ const session = require("express-session");
 const DBManager = require("./database/dbManager");
 const TicketController = require("./controllers/ticketController");
 const CounterController = require("./controllers/counterController");
+const LoginController = require("./controllers/loginController");
+const LoginController = require("./controllers/loginController");
 
 const PORT = 3001;
 app = express();
@@ -27,9 +29,11 @@ app.use(
   })
 );
 
+const loginController = new LoginController(dbManager);
+
 passport.use(
   new LocalStrategy(async function verify(username, password, callback) {
-    const user = await ""; //TODO: call here login method passing username and password
+    const user = await loginController.login(username, password); 
     if (!user)
       return callback(null, false, {
         message: "Incorrect username and/or password.",

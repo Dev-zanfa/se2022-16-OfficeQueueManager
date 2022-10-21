@@ -8,12 +8,12 @@ class LoginController {
         this.service = new LoginService(counterDAO);
     }
 
-    async login(userid) {
+    async login(userid, password) {
         const genericFailureStatus = 500;
         const genericFailureMessage = "generic failure status";
         let response = {};
         try {
-            response.body = await this.service.login(userid);
+            response.body = await this.service.login(userid, password);
             response.returnCode = 200;
         } catch (err) {
             console.log(err);

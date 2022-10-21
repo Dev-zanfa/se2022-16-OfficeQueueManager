@@ -54,6 +54,7 @@ class CounterDAO {
     }
   }
 }
+
 async function generateSecurePassword(password) {
   const buf = crypto.randomBytes(128); // generate random bytes
   const salt = buf.toString("hex"); // convert bytes to hex string (to store in the DB)
