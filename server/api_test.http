@@ -6,3 +6,18 @@ content-type: application/json
 {
     "service":"S1"
 }
+###
+POST http://localhost:3001/login
+content-type: application/json
+
+{
+    "username":"counter1",
+    "password":"counter1"
+}
+###
+POST http://localhost:3001/logout
+content-type: application/json
+
+{
+    "username":"counter1"
+}
