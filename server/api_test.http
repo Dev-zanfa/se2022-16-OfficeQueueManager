@@ -1,0 +1,8 @@
+GET http://localhost:3001/api/counter/1/nextcustomer 
+###
+POST http://localhost:3001/api/ticket
+content-type: application/json
+
+{
+    "service":"S1"
+}
