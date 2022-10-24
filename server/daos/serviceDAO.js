@@ -34,7 +34,6 @@ class ServiceDAO {
         const result = await this.dbManager.get(query);
         return result.map(elem=>new Service(elem.tag,elem.name,elem.service_time));
       } catch (err) {
-        console.log(err);
         throw err;
       }
     }
