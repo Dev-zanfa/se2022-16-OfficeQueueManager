@@ -1,8 +1,7 @@
-TEMPLATE FOR RETROSPECTIVE (Team ##)
+RETROSPECTIVE (Team 16)
 =====================================
 
-The retrospective should include _at least_ the following
-sections:
+# sections:
 
 - [process measures](#process-measures)
 - [quality measures](#quality-measures)
@@ -14,9 +13,9 @@ sections:
 
 - Number of stories committed vs. done: 2 out of 3
 - Total points committed vs. done: 19 committed and 16 done
-- Nr of hours planned vs. spent (as a team): 56 planned and 57.5
+- Nr of hours planned vs. spent (as a team): 56 planned and 59h15m
 
-**Remember**a story is done ONLY if it fits the Definition of Done:
+A story is done ONLY if it fits the Definition of Done:
  
 - Unit Tests passing
 - Code review completed
@@ -29,9 +28,9 @@ sections:
 
 | Story  | # Tasks | Points | Hours est. | Hours actual |
 |--------|---------|--------|------------|--------------|
+| _#0_   | 5   | - | 19 | 22.75 |
 | _#1_   |    3     |   13    |     11       |       10       |
 | #2      |    3     |   3     |     12       |       16       |
-| uncategorized | 5   | ## | 19 | 22.75 |
    
 
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
@@ -44,9 +43,9 @@ sections:
 
 - Unit Testing:
   - Total hours estimated: 2h
-  - Total hours spent: 2h
+  - Total hours spent: 4h
   - Nr of automated unit test cases: 16 tests
-  - Coverage (if available): 82%
+  - Coverage: 82%
 - E2E testing:
   - Total hours estimated: 2h
   - Total hours spent: 1h
@@ -58,23 +57,19 @@ sections:
 
 ## ASSESSMENT
 
-- What caused your errors in estimation (if any)? 
+- _What caused your errors in estimation (if any)?_ 
 
 Unexperienced in organization and team coordination.
 
-- What lessons did you learn (both positive and negative) in this sprint?
+- _What lessons did you learn (both positive and negative) in this sprint?_
 
 Team coordination and planning
-- Which improvement goals set in the previous retrospective were you able to achieve? 
   
-- Which ones you were not able to achieve? Why?
+- _Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)_
 
-- Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
+Better planning on story points and time estimations.
+Better task division and distribution.
 
-Planning on story points and time estimations, better task division and distribution.
-
-> Propose one or two
-
-- One thing you are proud of as a Team!!
+- _One thing you are proud of as a Team!!_
 
 We worked well together and successfully delivered a working application. 
